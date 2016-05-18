@@ -203,6 +203,7 @@ public class MaterialCalendarView extends ViewGroup {
 
     private OnDateSelectedListener listener;
     private OnMonthChangedListener monthListener;
+    private OnDateLongClickedListener onDateLongClickListener;
 
     private int accentColor = 0;
     private int arrowColor = Color.BLACK;
@@ -1194,6 +1195,16 @@ public class MaterialCalendarView extends ViewGroup {
         this.monthListener = listener;
     }
 
+
+    /**
+     * Sets the listener to be notified upon long click on date.
+     *
+     * @param listener thing to be notified
+     */
+    public void setOnDateLongClickListener(OnDateLongClickedListener listener) {
+        this.onDateLongClickListener = listener;
+    }
+
     /**
      * Dispatch date change events to a listener, if set
      *
@@ -1204,6 +1215,18 @@ public class MaterialCalendarView extends ViewGroup {
         OnDateSelectedListener l = listener;
         if (l != null) {
             l.onDateSelected(MaterialCalendarView.this, day, selected);
+        }
+    }
+
+    /**
+     * Dispatch date change events to a listener, if set
+     *
+     * @param day      the day that was selected
+     */
+    protected void dispatchOnDateLongClicked(final CalendarDay day) {
+        OnDateLongClickedListener l = onDateLongClickListener;
+        if (l != null) {
+            l.onDateLongClicked(MaterialCalendarView.this, day);
         }
     }
 
@@ -1242,6 +1265,14 @@ public class MaterialCalendarView extends ViewGroup {
         }
     }
 
+    /**
+     * Call by MonthView to indicate that a day was long clicked and we should handle it
+     *
+     * @param date        date of the day that was clicked
+     */
+    protected void onDateLongClicked(@NonNull CalendarDay date) {
+        dispatchOnDateLongClicked(date);
+    }
     /**
      * Called by the adapter for cases when changes in state result in dates being unselected
      *

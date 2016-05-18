@@ -40,11 +40,12 @@ class DayView extends CheckedTextView {
     private CalendarDay date;
     private int selectionColor = Color.GRAY;
 
-    private final int fadeTime;
+    private int fadeTime;
     private Drawable customBackground = null;
     private Drawable selectionDrawable;
     private DayFormatter formatter = DayFormatter.DEFAULT;
-
+    private int gravity = Gravity.CENTER;
+    private int textAlignment = TEXT_ALIGNMENT_GRAVITY;
     private boolean isInRange = true;
     private boolean isInMonth = true;
     private boolean isDecoratedDisabled = false;
@@ -58,14 +59,22 @@ class DayView extends CheckedTextView {
 
         setSelectionColor(this.selectionColor);
 
-        setGravity(Gravity.CENTER);
+        setGravity(gravity);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            setTextAlignment(textAlignment);
         }
 
         setDay(day);
     }
+
+    public DayView(Context context, CalendarDay day, int gravity, int textAlignment) {
+        super(context);
+        this.gravity = gravity;
+        this.textAlignment = textAlignment;
+        new DayView(context,day);
+    }
+
 
     public void setDay(CalendarDay date) {
         this.date = date;
@@ -241,5 +250,15 @@ class DayView extends CheckedTextView {
         else {
             setText(getLabel());
         }
+    }
+
+    @Override
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
+    }
+
+    @Override
+    public void setTextAlignment(int textAlignment) {
+        this.textAlignment = textAlignment;
     }
 }

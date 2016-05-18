@@ -18,17 +18,26 @@ class WeekDayView extends TextView {
 
     private WeekDayFormatter formatter = WeekDayFormatter.DEFAULT;
     private int dayOfWeek;
+    private int gravity = Gravity.RIGHT;
+    private int textAlignment = TEXT_ALIGNMENT_GRAVITY;
 
     public WeekDayView(Context context, int dayOfWeek) {
         super(context);
 
-        setGravity(Gravity.CENTER);
+        setGravity(gravity);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            setTextAlignment(textAlignment);
         }
 
         setDayOfWeek(dayOfWeek);
+    }
+
+    public WeekDayView(Context context,  int dayOfWeek, int gravity, int textAlignment) {
+        super(context);
+        this.gravity = gravity;
+        this.textAlignment = textAlignment;
+        new WeekDayView(context,dayOfWeek);
     }
 
     public void setWeekDayFormatter(WeekDayFormatter formatter) {
@@ -43,5 +52,15 @@ class WeekDayView extends TextView {
 
     public void setDayOfWeek(Calendar calendar) {
         setDayOfWeek(CalendarUtils.getDayOfWeek(calendar));
+    }
+
+    @Override
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
+    }
+
+    @Override
+    public void setTextAlignment(int textAlignment) {
+        this.textAlignment = textAlignment;
     }
 }

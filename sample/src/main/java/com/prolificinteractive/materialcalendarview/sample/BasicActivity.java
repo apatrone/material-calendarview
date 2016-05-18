@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateLongClickedListener;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
 /**
  * Shows off the most basic usage
  */
-public class BasicActivity extends AppCompatActivity implements OnDateSelectedListener, OnMonthChangedListener {
+public class BasicActivity extends AppCompatActivity implements OnDateSelectedListener, OnMonthChangedListener, OnDateLongClickedListener {
 
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
@@ -38,6 +39,8 @@ public class BasicActivity extends AppCompatActivity implements OnDateSelectedLi
 
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
+        widget.setLongClickable(true );
+        widget.setOnDateLongClickListener(this);
 
         //Setup initial text
         textView.setText(getSelectedDatesString());
@@ -46,6 +49,11 @@ public class BasicActivity extends AppCompatActivity implements OnDateSelectedLi
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @Nullable CalendarDay date, boolean selected) {
         textView.setText(getSelectedDatesString());
+    }
+
+    @Override
+    public void onDateLongClicked(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date) {
+        textView.setText("LongClick!");
     }
 
     @Override

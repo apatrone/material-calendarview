@@ -21,7 +21,7 @@ import static com.prolificinteractive.materialcalendarview.MaterialCalendarView.
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.DAY_OF_WEEK;
 
-abstract class CalendarPagerView extends ViewGroup implements View.OnClickListener {
+abstract class CalendarPagerView extends ViewGroup implements View.OnClickListener, View.OnLongClickListener {
 
     protected static final int DEFAULT_DAYS_IN_WEEK = 7;
     private static final Calendar tempWorkingCalendar = CalendarUtils.getInstance();
@@ -65,6 +65,7 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
         CalendarDay day = CalendarDay.from(calendar);
         DayView dayView = new DayView(getContext(), day);
         dayView.setOnClickListener(this);
+        dayView.setOnLongClickListener(this);
         dayViews.add(dayView);
         addView(dayView, new LayoutParams());
 
@@ -210,6 +211,17 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
             DayView dayView = (DayView) v;
             mcv.onDateClicked(dayView.getDate(), !dayView.isChecked());
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (v instanceof DayView) {
+            DayView dayView = (DayView) v;
+            //TODO longclick
+            mcv.onDateLongClicked(dayView.getDate());
+            return true;
+        }
+        return true;
     }
 
     /*
